@@ -3,6 +3,9 @@
   const {courses, stages, resources} = window.COURSE_DATA;
   const $ = id => document.getElementById(id);
   const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const isLessonPage = document.body.dataset.page==='lesson';
+  const dayNumber = value => /^(?:[1-9]|[12]\d|30)$/.test(value || '') ? Number(value) : null;
+  const lessonUrl = (day, section='course') => `./lesson.html?day=${day}${section==='note'?'&tab=note':''}`;
   const KEY = 'silvercare-learning-v1';
   const fresh = () => ({version:1, selected:1, theme:'light', days:{}});
   let state = fresh(), tab = 'course', view = 'learn', pending = null, toastTimer;
@@ -56,7 +59,7 @@
     $('course-map').innerHTML=stages.map((s,i)=>{
       const days=filtered.filter(c=>c.stage===i); if(!days.length)return '';
       const all=courses.filter(c=>c.stage===i), p=percent(all);
-      return `<section class="phase"><div class="phase-head"><b><em>0${i+1}</em>${esc(s)}</b><small>${p}% · ${all.filter(done).length}/5天</small></div><div class="phase-progress" role="progressbar" aria-label="${esc(s)}任务进度" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p}%"></i></div><div class="days">${days.map(c=>`<button data-day="${c.day}" aria-label="D${c.day} ${esc(c.title)}，${done(c)?'已完成':started(c)?'进行中':'未开始'}" aria-pressed="${c.day===state.selected}" class="day ${c.assessment?'exam':''} ${c.day===state.selected?'selected':''} ${done(c)?'done':''}"><b>D${String(c.day).padStart(2,'0')}</b><span>${shortTitles[c.day-1]}</span><small>${done(c)?'已完成':started(c)?'进行中':c.assessment?'阶段实践':'动手学习'}</small></button>`).join('')}</div></section>`;
+      return `<section class="phase"><div class="phase-head"><b><em>0${i+1}</em>${esc(s)}</b><small>${p}% · ${all.filter(done).length}/5天</small></div><div class="phase-progress" role="progressbar" aria-label="${esc(s)}任务进度" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p}%"></i></div><div class="days">${days.map(c=>`<a href="${lessonUrl(c.day)}" data-day="${c.day}" aria-label="D${c.day} ${esc(c.title)}，${done(c)?'已完成':started(c)?'进行中':'未开始'}" aria-current="${c.day===state.selected?'step':'false'}" class="day ${c.assessment?'exam':''} ${c.day===state.selected?'selected':''} ${done(c)?'done':''}"><b>D${String(c.day).padStart(2,'0')}</b><span>${shortTitles[c.day-1]}</span><small>${done(c)?'已完成':started(c)?'进行中':c.assessment?'阶段实践':'动手学习'}</small></a>`).join('')}</div></section>`;
     }).join('') || '<div class="empty">没有匹配课程。试试“坐标”“Nav2”或清除筛选。</div>';
   }
   function text(value) { return esc(value).replace(/\\[()\[\]]/g,'').replace(/\\\*/g,'*').replace(/`([^`]+)`/g,'<code>$1</code>'); }
@@ -89,17 +92,17 @@
       <div class="lesson-tabs" role="tablist" aria-label="每日课程内容">${[['course','知识与实验'],['check','今日打卡'],['note','学习笔记'],['original','进阶参考']].map(([id,label])=>`<button id="tab-${id}" role="tab" aria-controls="lesson-panel" aria-selected="${tab===id}" tabindex="${tab===id?0:-1}" data-tab="${id}">${label}</button>`).join('')}</div>
       <div class="lesson-content" id="lesson-panel" role="tabpanel" aria-labelledby="tab-${tab}" tabindex="0">${content}</div><div class="lesson-bottom"><button data-move="-1" ${c.day===1?'disabled':''}>上一天</button><button data-move="1" ${c.day===30?'disabled':''}>下一天</button></div>`;
   }
-  function selectDay(day, scroll=true) {
-    if(day<1||day>30)return;
-    state.selected=day; tab='course'; save(); showView('learn');
-    history.replaceState(null,'',`#day-${day}`); renderProgress(); renderMap(); renderLesson();
-    if(scroll)$('lesson').scrollIntoView({behavior:'auto',block:'start'});
+  function selectDay(day, section='course') {
+    if(!dayNumber(String(day)))return;
+    state.selected=day; save();
+    location.assign(lessonUrl(day,section));
   }
   function renderNotes() {
     const list=courses.filter(c=>record(c).note.trim());
     $('notes-list').innerHTML=list.map(c=>`<article class="note-card"><h2>D${c.day} · ${esc(c.title)}</h2><p>${esc(record(c).note)}</p><button data-note-day="${c.day}">打开并编辑</button></article>`).join('')||'<div class="empty">还没有笔记。打开任意一天的“学习笔记”开始记录。</div>';
   }
   function showView(next) {
+    if(isLessonPage && next!=='learn') { location.assign(`./index.html?view=${next}`); return; }
     view=next;
     for(const id of ['learn','resources','notes','guide']) $(`${id}-view`).hidden=id!==next;
     document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===next);b.setAttribute('aria-current',b.dataset.view===next?'page':'false');});
@@ -128,18 +131,17 @@
   $('confirm-import').onclick=()=>{
     if(!pending)return;
     state=pending;pending=null;blockedStorage=false;$('persistent-warning').hidden=true;
-    const saved=save();applyTheme();$('import-dialog').close();selectDay(state.selected,false);
+    const saved=save();applyTheme();$('import-dialog').close();renderProgress();renderMap();
+    if(isLessonPage){history.replaceState(null,'',lessonUrl(state.selected));tab='course';renderLesson();document.title=`D${state.selected} · ${courses[state.selected-1].title} · 银龄康护`;}
     notify(saved?'备份已导入，并保存到本机。':'备份已加载到页面；本机保存失败，请导出备份。');
   };
   $('theme').onclick=()=>{state.theme=state.theme==='dark'?'light':'dark';applyTheme();save();};
   $('continue').onclick=()=>selectDay((courses.find(c=>!done(c))||courses[29]).day);
   $('reset-filter').onclick=()=>{$('search').value='';$('stage-filter').value='all';$('status-filter').value='all';renderMap();};
   $('search').oninput=renderMap;$('stage-filter').onchange=renderMap;$('status-filter').onchange=renderMap;
-  document.querySelector('.brand').onclick=e=>{e.preventDefault();selectDay(1,false);window.scrollTo(0,0);};
   document.querySelector('nav').onclick=e=>{const b=e.target.closest('[data-view]');if(b){showView(b.dataset.view);$('main').focus();window.scrollTo(0,0);}};
-  $('stage-nav').onclick=e=>{const b=e.target.closest('[data-stage]');if(b){$('stage-filter').value=b.dataset.stage;$('search').value='';$('status-filter').value='all';selectDay(Number(b.dataset.stage)*5+1,false);$('course-map').scrollIntoView();}};
-  $('course-map').onclick=e=>{const b=e.target.closest('[data-day]');if(b)selectDay(Number(b.dataset.day));};
-  $('notes-list').onclick=e=>{const b=e.target.closest('[data-note-day]');if(b){selectDay(Number(b.dataset.noteDay));tab='note';renderLesson();$('note').focus();}};
+  $('stage-nav').onclick=e=>{const b=e.target.closest('[data-stage]');if(!b)return;if(isLessonPage){location.assign(`./index.html?stage=${b.dataset.stage}#course-map`);return;}showView('learn');$('stage-filter').value=b.dataset.stage;$('search').value='';$('status-filter').value='all';renderMap();$('course-map').scrollIntoView();};
+  $('notes-list').onclick=e=>{const b=e.target.closest('[data-note-day]');if(b)selectDay(Number(b.dataset.noteDay),'note');};
   $('lesson').onclick=e=>{
     const b=e.target.closest('button');if(!b)return;
     if(b.dataset.tab){tab=b.dataset.tab;renderLesson();$(`tab-${tab}`).focus();}
@@ -167,8 +169,29 @@
   $('report-template').onclick=()=>download('学习笔记模板.md','# D__ 随手学习记录\n\n今天学会了：\n\n动手结果：\n\n还没想明白：\n\n下次继续：\n','text/markdown;charset=utf-8');
   $('stage-filter').insertAdjacentHTML('beforeend',stages.map((s,i)=>`<option value="${i}">阶段${i+1} · ${esc(s)}</option>`).join(''));
   $('resource-grid').innerHTML=resources.map(([name,url])=>`<a class="resource-card" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><h2>${esc(name)} ↗</h2><p>${esc(new URL(url).hostname)}<br>官方教程 / 项目源码</p></a>`).join('');
-  function readHash() {const m=location.hash.match(/^#day-(\d+)$/);if(m&&Number(m[1])>=1&&Number(m[1])<=30)state.selected=Number(m[1]);}
-  window.addEventListener('hashchange',()=>{readHash();tab='course';showView('learn');renderProgress();renderMap();renderLesson();save();});
-  readHash();applyTheme();renderProgress();renderMap();renderLesson();
+  const params=new URLSearchParams(location.search);
+  const legacyDay=dayNumber(location.hash.match(/^#day-(\d+)$/)?.[1]);
+  if(!isLessonPage && legacyDay){location.replace(lessonUrl(legacyDay));return;}
+  if(isLessonPage){
+    state.selected=dayNumber(params.get('day')) || 1;
+    tab=params.get('tab')==='note'?'note':'course';
+    document.title=`D${state.selected} · ${courses[state.selected-1].title} · 银龄康护`;
+    if(!dayNumber(params.get('day')))history.replaceState(null,'',lessonUrl(state.selected));
+    renderLesson();save();
+  } else {
+    const stage=params.get('stage');
+    if(/^[0-5]$/.test(stage || ''))$('stage-filter').value=stage;
+    if(['learn','notes','resources','guide'].includes(params.get('view')))showView(params.get('view'));
+  }
+  applyTheme();renderProgress();renderMap();
+  window.addEventListener('pageshow',event=>{
+    if(!event.persisted)return;
+    try{const raw=localStorage.getItem(KEY);if(raw)state=validate(JSON.parse(raw));}
+    catch(e){warn('无法刷新本机记录，请先导出备份。');return;}
+    if(isLessonPage)state.selected=dayNumber(new URLSearchParams(location.search).get('day'))||1;
+    applyTheme();renderProgress();renderMap();
+    if(isLessonPage)renderLesson();
+    if(view==='notes')renderNotes();
+  });
   if(blockedStorage)$('save-status').textContent='仅本次页面 · 请导出备份';
 })();
