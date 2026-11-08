@@ -112,9 +112,9 @@
     const blob=new Blob([content],{type}), url=URL.createObjectURL(blob), a=document.createElement('a');
     a.href=url; a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
-  function exportBackup() { const date=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); download(`银龄康护-学习备份-${date}.json`,JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2),'application/json;charset=utf-8'); notify('学习备份已生成，请确认浏览器下载已保存。'); }
+  function exportBackup() { const date=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); download(`具身智能-学习备份-${date}.json`,JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2),'application/json;charset=utf-8'); notify('学习备份已生成，请确认浏览器下载已保存。'); }
   $('export').onclick=exportBackup; $('side-export').onclick=exportBackup; $('backup-before').onclick=exportBackup;
-  if(blockedStorage) { const b=document.createElement('button'); b.textContent='导出原始记录'; b.onclick=()=>{try{download('银龄康护-原始记录.txt',localStorage.getItem(KEY)||'无可读原始记录','text/plain;charset=utf-8');}catch(e){notify('浏览器拒绝读取原始记录。');}}; $('persistent-warning').append(' ',b); }
+  if(blockedStorage) { const b=document.createElement('button'); b.textContent='导出原始记录'; b.onclick=()=>{try{download('具身智能-原始记录.txt',localStorage.getItem(KEY)||'无可读原始记录','text/plain;charset=utf-8');}catch(e){notify('浏览器拒绝读取原始记录。');}}; $('persistent-warning').append(' ',b); }
   $('import').onclick=()=>$('import-file').click();
   $('import-file').onchange=async event=>{
     const file=event.target.files[0]; event.target.value=''; if(!file)return;
@@ -132,7 +132,7 @@
     if(!pending)return;
     state=pending;pending=null;blockedStorage=false;$('persistent-warning').hidden=true;
     const saved=save();applyTheme();$('import-dialog').close();renderProgress();renderMap();
-    if(isLessonPage){history.replaceState(null,'',lessonUrl(state.selected));tab='course';renderLesson();document.title=`D${state.selected} · ${courses[state.selected-1].title} · 银龄康护`;}
+    if(isLessonPage){history.replaceState(null,'',lessonUrl(state.selected));tab='course';renderLesson();document.title=`D${state.selected} · ${courses[state.selected-1].title} · 具身智能`;}
     notify(saved?'备份已导入，并保存到本机。':'备份已加载到页面；本机保存失败，请导出备份。');
   };
   $('theme').onclick=()=>{state.theme=state.theme==='dark'?'light':'dark';applyTheme();save();};
@@ -175,7 +175,7 @@
   if(isLessonPage){
     state.selected=dayNumber(params.get('day')) || 1;
     tab=params.get('tab')==='note'?'note':'course';
-    document.title=`D${state.selected} · ${courses[state.selected-1].title} · 银龄康护`;
+    document.title=`D${state.selected} · ${courses[state.selected-1].title} · 具身智能`;
     if(!dayNumber(params.get('day')))history.replaceState(null,'',lessonUrl(state.selected));
     renderLesson();save();
   } else {

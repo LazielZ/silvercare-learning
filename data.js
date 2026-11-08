@@ -466,7 +466,7 @@ window.COURSE_DATA = {
       "originalMath": "理解离散采样时间、消息频率、时间戳，以及不同采样频率下的数据更新。",
       "steps": [
         "安装ROS 2 Jazzy和colcon。",
-        "创建 `silvercare_ws` 工作空间。",
+        "创建 `embodied_ws` 工作空间。",
         "使用 `ros2 pkg create` 创建Python功能包。",
         "编写 `camera_publisher` 节点，发布模拟视觉结果。",
         "编写 `perception_subscriber` 节点，接收并打印结果。",
@@ -477,7 +477,7 @@ window.COURSE_DATA = {
       "resources": [
         6
       ],
-      "original": "**数学任务**\n\n理解离散采样时间、消息频率、时间戳，以及不同采样频率下的数据更新。\n\n**理论任务**\n\n学习ROS 2工作空间、Package、Node、Topic、Publisher、Subscriber，以及消息类型与QoS的基本概念。\n\n**编程实验**\n\n- 安装ROS 2 Jazzy和colcon。\n- 创建 `silvercare_ws` 工作空间。\n- 使用 `ros2 pkg create` 创建Python功能包。\n- 编写 `camera_publisher` 节点，发布模拟视觉结果。\n- 编写 `perception_subscriber` 节点，接收并打印结果。\n- 使用 `ros2 topic list`、`ros2 topic echo`、`ros2 topic hz` 调试。\n\n**今日交付**：ROS 2功能包、两节点通信视频、Topic消息流示意图。\n\n**验收**：两个独立进程能够稳定通信，能够解释节点、Topic和消息之间的关系。",
+      "original": "**数学任务**\n\n理解离散采样时间、消息频率、时间戳，以及不同采样频率下的数据更新。\n\n**理论任务**\n\n学习ROS 2工作空间、Package、Node、Topic、Publisher、Subscriber，以及消息类型与QoS的基本概念。\n\n**编程实验**\n\n- 安装ROS 2 Jazzy和colcon。\n- 创建 `embodied_ws` 工作空间。\n- 使用 `ros2 pkg create` 创建Python功能包。\n- 编写 `camera_publisher` 节点，发布模拟视觉结果。\n- 编写 `perception_subscriber` 节点，接收并打印结果。\n- 使用 `ros2 topic list`、`ros2 topic echo`、`ros2 topic hz` 调试。\n\n**今日交付**：ROS 2功能包、两节点通信视频、Topic消息流示意图。\n\n**验收**：两个独立进程能够稳定通信，能够解释节点、Topic和消息之间的关系。",
       "study": {
         "goal": "在ROS 2里让两个独立节点发送与接收消息，掌握最常用调试方法。",
         "concepts": [
@@ -488,7 +488,7 @@ window.COURSE_DATA = {
         "worked": "发布端每0.1秒发一条消息，理想频率约10Hz。接收端每次打印收到的编号；如果发布端退出，接收端不会凭空收到新数据，这时不能继续把旧数据当实时状态。",
         "lab": [
           "在Ubuntu中完成ROS 2 Jazzy安装并source环境。先用官方talker/listener示例确认两个终端能通信，排除环境问题。",
-          "建立silvercare_ws/src，创建ament_python包。仿照官方Python发布订阅教程写camera_publisher与perception_subscriber，先用String消息发送模拟观测。",
+          "建立embodied_ws/src，创建ament_python包。仿照官方Python发布订阅教程写camera_publisher与perception_subscriber，先用String消息发送模拟观测。",
           "编译并source工作空间，分别在两个终端启动节点。使用ros2 node list、ros2 topic list和ros2 topic echo检查节点与消息。",
           "用ros2 topic hz看发送频率，把定时器从0.1秒改成0.5秒，观察频率从约10Hz变到约2Hz。保存启动命令和节点脚本即可。"
         ],
@@ -655,7 +655,7 @@ window.COURSE_DATA = {
       "resources": [
         6
       ],
-      "original": "**项目：银龄康护ROS 2系统骨架**\n\n今天要将前面独立开发的Python模块转换为ROS 2组件。\n\n最低要求：\n\n| 功能节点 | 任务 |\n|--------|--------|\n| `camera_node` | 发布图像或模拟感知数据 |\n| `detection_node` | 输出物体检测结果 |\n| `memory_node` | 管理物品历史位置 |\n| `task_manager_node` | 接收、分配、取消任务 |\n| `feedback_node` | 汇报执行状态 |\n\n**具体考核任务**\n\n从命令行发送“查询水杯”请求，系统能够通过ROS 2节点完成查询并返回结果。然后模拟检测节点退出，观察其余模块能否识别异常并返回失败状态。\n\n**今日交付**：P3源码、ROS节点图、Topic/Service/Action接口表、Launch文件、运行视频、测试报告。\n\n**通过标准**：五个节点能完成一次端到端任务，并且任务取消、节点故障和查询失败均有明确处理。\n\n",
+      "original": "**项目：具身智能ROS 2系统骨架**\n\n今天要将前面独立开发的Python模块转换为ROS 2组件。\n\n最低要求：\n\n| 功能节点 | 任务 |\n|--------|--------|\n| `camera_node` | 发布图像或模拟感知数据 |\n| `detection_node` | 输出物体检测结果 |\n| `memory_node` | 管理物品历史位置 |\n| `task_manager_node` | 接收、分配、取消任务 |\n| `feedback_node` | 汇报执行状态 |\n\n**具体考核任务**\n\n从命令行发送“查询水杯”请求，系统能够通过ROS 2节点完成查询并返回结果。然后模拟检测节点退出，观察其余模块能否识别异常并返回失败状态。\n\n**今日交付**：P3源码、ROS节点图、Topic/Service/Action接口表、Launch文件、运行视频、测试报告。\n\n**通过标准**：五个节点能完成一次端到端任务，并且任务取消、节点故障和查询失败均有明确处理。\n\n",
       "study": {
         "goal": "把已有感知与记忆放进ROS 2节点，跑通一次跨节点的水杯查询。",
         "concepts": [
@@ -1329,7 +1329,7 @@ window.COURSE_DATA = {
     },
     {
       "day": 30,
-      "title": "结课实践：银龄康护具身智能原型",
+      "title": "结课实践：家居找物机器人",
       "stage": 5,
       "week": null,
       "assessment": true,
@@ -1348,7 +1348,7 @@ window.COURSE_DATA = {
         6,
         8
       ],
-      "original": "## 银龄康护 Embodied AI 1.0\n\n30天最终项目验收\n\n---\n\n**最终演示任务**\n\n用户输入：“帮我看看水杯放在哪里了。”\n\n系统依次执行：\n\n---\n\n**最终验收标准**\n\n| 指标 | 课程目标 |\n|--------|--------|\n| 端到端任务测试 | 20次中至少16次符合预期 |\n| 导航 | 正常和异常任务均有可观察结果 |\n| 物品记忆 | 能区分当前、历史和未知位置 |\n| 任务取消 | 所有预设取消测试必须通过 |\n| 非法动作保护 | 所有预设安全检查必须通过 |\n| 工程交付 | 代码、文档、视频、测试齐全 |\n\n以上是课程考核门槛，不代表已经达到实际康养产品的安全性、可靠性或临床使用要求。",
+      "original": "## 家居找物机器人 1.0\n\n30天最终项目验收\n\n---\n\n**最终演示任务**\n\n用户输入：“帮我看看水杯放在哪里了。”\n\n系统依次执行：\n\n---\n\n**最终验收标准**\n\n| 指标 | 课程目标 |\n|--------|--------|\n| 端到端任务测试 | 20次中至少16次符合预期 |\n| 导航 | 正常和异常任务均有可观察结果 |\n| 物品记忆 | 能区分当前、历史和未知位置 |\n| 任务取消 | 所有预设取消测试必须通过 |\n| 非法动作保护 | 所有预设安全检查必须通过 |\n| 工程交付 | 代码、文档、视频、测试齐全 |\n\n以上是课程考核门槛，不代表已经达到实际康养产品的安全性、可靠性或临床使用要求。",
       "study": {
         "goal": "完成一次完整演示，回顾30天成果，决定下一步先补哪里。",
         "concepts": [

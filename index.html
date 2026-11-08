@@ -2,15 +2,15 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="银龄康护30天具身智能全课程学习平台，每日知识讲解、分步实验、简单自查与本地学习记录。">
-  <meta name="color-scheme" content="light dark"><title>银龄康护 · 30天具身智能全课程学习平台</title>
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=pages2">
-  <script defer src="./data.js"></script><script defer src="./app.js?v=pages2"></script>
+  <meta name="description" content="30天具身智能学习平台，每日知识讲解、分步实验、简单自查与本地学习记录。">
+  <meta name="color-scheme" content="light dark"><title>30天具身智能学习平台</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=neutral3">
+  <script defer src="./data.js?v=neutral3"></script><script defer src="./app.js?v=neutral3"></script>
 </head>
 <body data-page="home">
 <a class="skip" href="#main">跳到学习内容</a>
 <aside class="sidebar">
-  <a class="brand" href="./index.html" aria-label="银龄康护首页"><span class="brand-icon">✦</span><span>银龄康护<small>具身智能学习工作台</small></span></a>
+  <a class="brand" href="./index.html" aria-label="具身智能首页"><span class="brand-icon">✦</span><span>具身智能<small>具身智能学习工作台</small></span></a>
   <div class="course-label">你的30天，全链路实践</div>
   <nav aria-label="主导航"><button class="nav active" data-view="learn">▦ <span>学习工作台</span></button><button class="nav" data-view="resources">⌘ <span>官方资源库</span></button><button class="nav" data-view="notes">▤ <span>我的学习笔记</span></button><button class="nav" data-view="guide">↗ <span>学习与部署指南</span></button></nav>
   <div class="side-heading">六阶段学习路径</div><div id="stage-nav"></div>
@@ -23,7 +23,7 @@
     <section id="learn-view">
       <div id="dashboard">
       <section class="hero">
-        <div class="hero-copy"><div class="hero-kicker"><span></span> 每天学一点，亲手做一点</div><h1>从一行坐标变换，<br>到一个会找物的机器人。</h1><p>银龄康护 · 30天具身智能全课程学习平台</p><div class="hero-meta">6个阶段 <i></i> 24个课程日 <i></i> 6次阶段实践</div><button id="continue" class="primary">开始今天的学习 <span>↗</span></button></div>
+        <div class="hero-copy"><div class="hero-kicker"><span></span> 每天学一点，亲手做一点</div><h1>从一行坐标变换，<br>到一个会找物的机器人。</h1><p>30天具身智能学习平台</p><div class="hero-meta">6个阶段 <i></i> 24个课程日 <i></i> 6次阶段实践</div><button id="continue" class="primary">开始今天的学习 <span>↗</span></button></div>
         <div class="hero-visual" aria-hidden="true"><svg viewBox="0 0 400 230" fill="none"><path d="M40 60 220 15 370 90 190 155Z" fill="#183c51"/><path d="M40 60v90l150 75v-70m0 70 180-65V90" stroke="#497185" stroke-width="2"/><path d="M40 60 190 135 370 90M120 40l155 78M110 95l178-45M190 135v90" stroke="#386074"/><path d="m115 140 52-13 58 25 69-24" stroke="#66d5c3" stroke-width="3" stroke-dasharray="6 5"/><path d="m245 58 59 29v34l-59-29Z" fill="#426379"/><path d="m245 58 22-6 60 29-23 6Z" fill="#75909c"/><path d="m304 87 23-6v34l-23 6Z" fill="#2c4c62"/><path d="m85 81 42-10 39 19-41 12Z" fill="#66848e"/><path d="m85 81 40 21v32L85 114Zm40 21 41-12v33l-41 11" fill="#395d71"/><ellipse cx="225" cy="153" rx="22" ry="9" fill="#0b273b"/><path d="M206 132v18c0 11 37 11 37 0v-18" fill="#b9e8df"/><ellipse cx="224.5" cy="132" rx="18.5" ry="9" fill="#e2fff7"/><path d="M217 132h15" stroke="#184454" stroke-width="3" stroke-linecap="round"/><circle cx="225" cy="123" r="3" fill="#69d5c4"/><path d="M204 125c-16-15-9-33 6-44m37 44c19-14 19-30 5-44" stroke="#69d5c4" stroke-opacity=".45"/><circle cx="115" cy="140" r="5" fill="#69d5c4"/></svg><div class="visual-caption"><span>感知</span><b>→</b><span>记忆</span><b>→</b><span>规划</span><b>→</b><span>行动</span></div><small>最终项目：家居仿真中的语言驱动找物</small></div>
       </section>
       <section class="metrics" aria-label="学习概况"><div><span>全程完成度</span><strong id="overall">0<small>%</small></strong><progress id="overall-bar" max="100" value="0" aria-label="整体任务完成百分比"></progress></div><div><span>已完成学习日</span><strong id="days-done">0<small> / 30天</small></strong><p>理解了、做过了、检查过了</p></div><div><span>阶段实践</span><strong id="exams-done">0<small> / 6次</small></strong><p>每五天串起一次所学</p></div><div class="pace"><span>学习节奏</span><strong>按自己<small> 的节奏</small></strong><p>可以顺延，学会再继续</p></div></section>
@@ -35,14 +35,14 @@
     </section>
     <section id="resources-view" class="secondary" hidden><h1>官方资源库</h1><p>先阅读当天对应官方示例，再独立实现关键逻辑。安装与API以所选版本文档为准。</p><div id="resource-grid" class="resource-grid"></div></section>
     <section id="notes-view" class="secondary" hidden><h1>我的学习笔记</h1><p>记录推导、实验结果、失败原因和下一步。笔记保存在当前浏览器，可随备份迁移。</p><div id="notes-list"></div></section>
-    <section id="guide-view" class="secondary prose" hidden><h1>学习与部署指南</h1><h2>按自己的节奏学完30天</h2><p>每阶段四天学习、一天串联实践。每天先理解概念和例子，再跟着步骤动手，最后做三项自查。30天是内容顺序，不是倒计时；遇到不理解的地方可以多留几天，不用赶进度。</p><h2>先把环境准备好</h2><p>D1–10准备Python虚拟环境与Ubuntu快照。机器人部分使用Ubuntu 24.04、ROS 2 Jazzy与Gazebo Harmonic；先从官方示例验证，再集成自有节点。普通浏览器承载课程和学习记录，Python实验、ROS与仿真在你自己的开发环境中运行。</p><h2>每日工作流</h2><ol><li>先看“今天学会什么”，再读概念与具体例子。不认识的词可以边查边记。</li><li>跟着实验步骤在本地操作，改一个参数或输入，观察结果变化。</li><li>在“今日打卡”勾选理解了、做过了、检查过了。每天只有三项，不用评分、上传文件或写正式报告。</li><li>有余力再看“进阶参考”的完整项目目标；随手记下一句心得即可。</li></ol><h2>如何保存实验</h2><pre>SilverCare-EmbodiedAI/
+    <section id="guide-view" class="secondary prose" hidden><h1>学习与部署指南</h1><h2>按自己的节奏学完30天</h2><p>每阶段四天学习、一天串联实践。每天先理解概念和例子，再跟着步骤动手，最后做三项自查。30天是内容顺序，不是倒计时；遇到不理解的地方可以多留几天，不用赶进度。</p><h2>先把环境准备好</h2><p>D1–10准备Python虚拟环境与Ubuntu快照。机器人部分使用Ubuntu 24.04、ROS 2 Jazzy与Gazebo Harmonic；先从官方示例验证，再集成自有节点。普通浏览器承载课程和学习记录，Python实验、ROS与仿真在你自己的开发环境中运行。</p><h2>每日工作流</h2><ol><li>先看“今天学会什么”，再读概念与具体例子。不认识的词可以边查边记。</li><li>跟着实验步骤在本地操作，改一个参数或输入，观察结果变化。</li><li>在“今日打卡”勾选理解了、做过了、检查过了。每天只有三项，不用评分、上传文件或写正式报告。</li><li>有余力再看“进阶参考”的完整项目目标；随手记下一句心得即可。</li></ol><h2>如何保存实验</h2><pre>EmbodiedAI-Learning/
   learning/day01/   # notes.md、experiment.py、测试、report.md
   src/             # perception、spatial_memory、task_planner、safety
   ros2_ws/src/
   simulation/
   tests/
   docs/</pre><button id="report-template">下载简短笔记模板</button><h2>GitHub Pages 部署</h2><ol><li>解压交付压缩包，在GitHub创建你自己的仓库。</li><li>将index.html、lesson.html、style.css、app.js、data.js和favicon.svg上传到仓库根目录。不要只上传ZIP，也不要把根页面多套一层文件夹。</li><li>提交到main分支。进入Settings → Pages，在Build and deployment的Source中选择Deploy from a branch。</li><li>选择main分支和/(root)，保存。待Pages部署任务成功后，使用GitHub显示的站点链接访问。</li><li>项目站点通常为https://用户名.github.io/仓库名/。所有资源使用相对路径，支持项目子路径。</li></ol><p><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">GitHub Pages 官方部署文档</a> · <a href="./课程原计划.md" download>下载完整课程参考</a> · <a href="./README.md" download>下载完整部署说明</a></p><h2>数据与备份</h2><p>打卡和笔记仅保存在当前浏览器的当前站点地址下，不会自动跨设备同步。导出JSON，再在另一设备导入可迁移记录。导入会预览并要求确认替换；先导出当前记录可保留两个版本。清除浏览器数据、无痕会话结束、更换站点域名可能使原记录不可见。</p><h2>项目边界</h2><p>最终成果是仿真学习原型。课程考核不代表真实康养产品的安全、可靠性或临床适用性；真实硬件还需物理安全措施与额外验证。此网站无需账号、无后端，不会自动运行机器人或发送学习记录。</p></section>
-    <footer>银龄康护 · 让每一项知识，都在项目里落地。<span>纯静态 · 本机保存 · 可备份</span></footer>
+    <footer>让每一项知识，都在项目里落地。<span>纯静态 · 本机保存 · 可备份</span></footer>
   </main>
 </div>
 <dialog id="import-dialog"><h2>导入学习备份</h2><p id="import-preview"></p><p>确认后将替换当前打卡、笔记、选中日期和主题。建议先导出本机备份。</p><div class="dialog-actions"><button id="backup-before">先导出本机备份</button><button id="cancel-import">取消</button><button id="confirm-import" class="primary">确认替换记录</button></div></dialog>
